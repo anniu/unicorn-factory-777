@@ -13,17 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler(IllegalKeywordException.class)
-    protected ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        var message = "Illegal keyword extracted from message";
-        return handleExceptionInternal(ex, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
-
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<Object> handleConflict(Exception ex, WebRequest request) {
-        var message = "Something went wrong. Please contact us at cs.boku.com to receive your service";
-        return handleExceptionInternal(ex, message, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    protected ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request) {
+        return handleExceptionInternal(ex, null, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     @Override
@@ -34,7 +26,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
             HttpStatusCode status,
             WebRequest request
     ) {
-        log.error(ex.getMessage());
-        return super.handleExceptionInternal(ex, body, headers, status, request);
+        log.error(ex.getMessage(), ex);
+        String message = "Something went wrong. Please contact us at cs.boku.com to receive your service";
+        return super.handleExceptionInternal(ex, message, headers, status, request);
     }
 }

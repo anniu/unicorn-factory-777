@@ -4,8 +4,11 @@ import com.example.bokuassignment.model.Keyword;
 import com.example.bokuassignment.model.MerchantNotificationDto;
 import com.example.bokuassignment.model.MerchantResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.ErrorResponseException;
+import org.springframework.web.bind.MissingPathVariableException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
